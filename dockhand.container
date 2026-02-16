@@ -14,6 +14,7 @@ PublishPort=3000:3000
 # For rootless Podman, use the path: /run/user/1000/podman/podman.sock
 # Replace '1000' with your actual UID (find it with 'id -u')
 Volume=%t/podman/podman.sock:/var/run/docker.sock:Z
+#Volume=/run/podman/podman.sock:/var/run/docker.sock:Z
 
 # Persistent data storage
 # You can use a named volume or a bind mount
