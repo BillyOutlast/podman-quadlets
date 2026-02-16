@@ -4,6 +4,7 @@ After=network-online.target
 
 [Container]
 Image=docker.io/fnsys/dockhand:latest
+AutoUpdate=registry
 ContainerName=dockhand
 
 # Port mapping (Host:Container)
