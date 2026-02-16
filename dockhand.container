@@ -7,6 +7,9 @@ Image=docker.io/fnsys/dockhand:latest
 AutoUpdate=registry
 ContainerName=dockhand
 
+#Enable for SELinux
+#SecurityLabelDisable=true
+
 # Port mapping (Host:Container)
 PublishPort=3000:3000
 
