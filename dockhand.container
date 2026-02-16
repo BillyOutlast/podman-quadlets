@@ -1,0 +1,35 @@
+[Unit]
+Description=Dockhand - Modern Docker Management UI
+After=network-online.target
+
+[Container]
+Image=docker.io/fnsys/dockhand:latest
+ContainerName=dockhand
+
+# Port mapping (Host:Container)
+PublishPort=3000:3000
+
+# Mount the Podman socket to the path Dockhand expects
+# For rootless Podman, use the path: /run/user/1000/podman/podman.sock
+# Replace '1000' with your actual UID (find it with 'id -u')
+Volume=%t/podman/podman.sock:/var/run/docker.sock:Z
+
+# Persistent data storage
+# You can use a named volume or a bind mount
+Volume=dockhand_data:/app/data
+
+# Optional: Environment variables
+# Environment=PUID=1000
+# Environment=PGID=1000
+# Environment=DATA_DIR=/app/data
+
+# Enable Podman's auto-update feature
+AutoUpdate=registry
+
+[Service]
+# Restart the service if it fails
+Restart=always
+
+[Install]
+# Start at boot
+WantedBy=multi-user.target default.target
