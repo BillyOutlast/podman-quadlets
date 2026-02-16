@@ -1,0 +1,27 @@
+[Unit]
+Description=ZeroTier DNS Server (ZeroNSD)
+After=network-online.target
+
+[Container]
+# Image reference for the official ZeroNSD image
+Image=docker.io/zerotier/zeronsd:latest
+
+# Enable auto-updates from the registry
+AutoUpdate=registry
+
+# Required to bind to port 53 and talk to the local ZeroTier service
+Network=host
+
+# Mount the local ZeroTier authentication secret (required for ZeroNSD to talk to ZeroTier-One)
+Volume=/var/lib/zerotier-one/authtoken.secret:/authtoken.secret:ro
+
+# Set your ZeroTier Central API Token via environment variable
+Environment=ZEROTIER_CENTRAL_TOKEN=<YOUR_CENTRAL_TOKEN>
+
+# Container command: start the DNS service for your specific network
+# -s points to the local secret we mounted above
+Exec=start <YOUR_NETWORK_ID> -s /authtoken.secret
+
+[Install]
+# Pull this unit into the multi-user target (equivalent to enable on boot)
+WantedBy=multi-user.target default.target
