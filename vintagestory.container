@@ -1,0 +1,34 @@
+[Unit]
+Description=Vintage Story Server
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+# Image and Name
+Image=docker.io/zsuatem/vintagestory:unstable
+ContainerName=vintagestory
+AutoUpdate=registry
+
+# User Mapping (UID 1000)
+User=1000
+Group=1000
+
+# Volume Mapping
+# Maps your existing volume to the path the server config expects
+Volume=vintagestory-data:/home/vintagestory/data
+
+# Ports
+PublishPort=42420:42420/tcp
+PublishPort=42420:42420/udp
+
+# Entrypoint Override (Bypassing the broken script)
+Entrypoint=/bin/sh
+# The command passed to /bin/sh
+Exec=-c "./VintagestoryServer --dataPath /home/vintagestory/data"
+
+[Service]
+# Restart automatically if it crashes
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
