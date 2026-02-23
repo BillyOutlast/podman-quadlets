@@ -1,0 +1,25 @@
+[Unit]
+# Ensures the container waits for the mount units to be active
+Requires=mnt-Data.mount
+
+
+[Container]
+ContainerName=FileBrowser-Quantum
+
+Image=docker.io/gtstef/filebrowser:stable
+AutoUpdate=registry
+SecurityLabelDisable=true
+
+
+Volume=/mnt/Data/filebrowser/data:/home/filebrowser/data:Z
+Volume=/mnt/Data/filebrowser/config.yaml:/home/filebrowser/config.yaml:ro,Z
+
+Volume=/data/Data/Files:/Files
+
+PublishPort=8080:80
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
